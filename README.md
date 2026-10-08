@@ -80,3 +80,11 @@ Progress stars and active time use sessionStorage in the current tab by default.
 The app's letter audio is synthetic Piper output. Its voice-model source and redistribution terms were not established by the generic Expo MIT file, so those clips are not republished. Optional device speech uses local Hindi voices only and may be unavailable. No installed offline mode, app progress sync, device vibration, child-name field or social progress sharing is included on this website. Review the app's and website's educational content with a Hindi educator.
 
 App-derived content is adapted under the source repository's MIT notice, preserved in build.mjs. Check ownership and third-party rights before broader distribution, especially audio models and traditional text editions.
+
+## Search-focused resources (October 8, 2026)
+
+17 HTML routes, of which Gallery is noindex and excluded from the 16-URL sitemap. Numbers now cover 1-100. New resources: Varnamala chart, full starter barakhadi chart, PDF hub and swar/vyanjan/counting worksheet guides. Six original A4 PDFs are stored in `pdf-assets.json` and written to `dist/downloads` at build time. No runtime PDF dependency, analytics or new audio.
+
+`seo-pages.mjs` contains the educational pages. Absolute metadata still derives from SITE_URL (or RAILWAY_PUBLIC_DOMAIN). Per-page WebPage/BreadcrumbList and Android SoftwareApplication JSON-LD are hashed by the server's CSP. No invented ratings, reviews, search volumes or learning guarantees. Number names cross-checked against https://nith.ac.in/library/hindi/hindi_count.php ; source spelling variants remain possible. Hindi educator review is pending.
+
+Keep the embedded font licence. PDF layouts are original Team Handyapps practice materials. Parent-led use only; guides are not stroke-order instruction. Tests: `npm ci`, `npm test`, `npm run build`. Before any domain switch, set SITE_URL and arrange permanent redirects from the old host. Search Console/Bing verification is separate and has not been performed by this update.
