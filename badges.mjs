@@ -12,7 +12,7 @@ const BADGES=[
 `<a href="https://startuptrusted.com?ref=hindivarnmala.com" target="_blank" rel="noopener">
   <img src="https://startuptrusted.com/api/badge?type=featured&style=light" alt="Hindi Varnmala on StartupTrusted" width="240" height="54" />
 </a>`,
-`<a href="https://nicklaunches.com/" target="_blank" rel="noopener"><img src="https://nicklaunches.com/badges/featured.png" alt="Featured on Nick Launches" width="244" height="56" /></a>`,
+`<a href="https://nicklaunches.com/products/hindi-varnmala/" target="_blank" rel="noopener"><img src="https://nicklaunches.com/badges/featured.png" alt="Hindi Varnmala on Nick Launches" width="244" height="56" /></a>`,
 ];
 const row='<div class="fbadges"><span class="fbadges-label">Directories</span>'+BADGES.join('')+'</div>';
 const css='.fbadges{max-width:1140px;margin:18px auto 0;padding:14px 24px 0;border-top:1px solid #F0D9B5;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px}.fbadges-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#76584d}.fbadges a{display:inline-block;margin:0;line-height:0}.fbadges img{display:block;height:28px;width:auto;max-width:100%}@media(max-width:700px){.fbadges{padding:12px 16px 0;gap:8px 12px}}@media print{.fbadges{display:none!important}}\n';
