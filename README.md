@@ -68,3 +68,15 @@ The public brand is Team Handyapps and support is teamhandyapps@gmail.com. No pe
 - [ ] Add a custom domain only if wanted later; no domain is needed now.
 
 SEO basics are in place, but rankings, traffic and app installs are not promised. Grow from genuinely useful learning material, not thin duplicate pages.
+
+## App-matched edition (October 8, 2026)
+
+The website now follows the supplied Hindi Varnmala app: its exact icon, cream #FFF8E1, orange #E65100, brown #4E342E, pastel rounded tiles, letter/word examples, 1-20 counting, barakhadi, six stories and five rhymes. App-like activities are available at /tracing/, /gallery/ and /parents/. The original printable worksheets, privacy and support pages remain. There are 11 routes.
+
+The app uses native system typography. The web uses system UI plus its bundled Devanagari font, not a claim of pixel-identical native rendering. Emoji pictures depend on the device's emoji font. The exact logo is bundled locally. Its PNG and the app-derived content/styles are embedded in build.mjs so browser-based source delivery remains deterministic; generated files are not remote dependencies. Edit those payloads in build.mjs for this edition. The earlier root app.js/styles.css are legacy reference copies, not the current generated assets.
+
+Progress stars and active time use sessionStorage in the current tab by default. A parent can opt in to localStorage persistence, turn it off, or reset. No child name, account, microphone, analytics or server progress endpoint. The small arithmetic parent gate prevents accidental taps; it is not age verification or a security boundary. Stars are shape-practice celebrations, not learning scores. Tracing checks shape coverage, not correct stroke order or handwriting quality, and uses font-rendered web guides rather than the app's platform-specific masks.
+
+The app's letter audio is synthetic Piper output. Its voice-model source and redistribution terms were not established by the generic Expo MIT file, so those clips are not republished. Optional device speech uses local Hindi voices only and may be unavailable. No installed offline mode, app progress sync, device vibration, child-name field or social progress sharing is included on this website. Review the app's and website's educational content with a Hindi educator.
+
+App-derived content is adapted under the source repository's MIT notice, preserved in build.mjs. Check ownership and third-party rights before broader distribution, especially audio models and traditional text editions.
