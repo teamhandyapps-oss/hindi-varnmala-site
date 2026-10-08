@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync,spawn} from 'node:child_process';
 import fs from 'node:fs';
 import http from 'node:http';
+import {createHash} from 'node:crypto';
 const hostRequest=(url,host)=>new Promise((resolve,reject)=>{http.get(url,{headers:{Host:host}},res=>{res.resume();resolve({status:res.statusCode,headers:{get:name=>res.headers[name]??null}})}).on('error',reject)});
 test('default custom domain, educational content and privacy',()=>{execFileSync('node',['build.mjs'],{env:{...process.env,SITE_URL:'',RAILWAY_PUBLIC_DOMAIN:''}});const html=fs.readFileSync('dist/index.html','utf8');assert.match(html,/href="https:\/\/hindivarnmala\.com\/"/);assert.doesNotMatch(html,/Amar Parkash|Gurgaon|ratingValue/);assert.match(fs.readFileSync('dist/privacy/index.html','utf8'),/request logs/);assert.equal(JSON.parse(fs.readFileSync('dist/data.json')).numbers.length,100);assert.deepEqual(JSON.parse(fs.readFileSync('dist/audio-manifest.json')),{});for(const route of ['letters','barakhadi','numbers','worksheets','parents','privacy','support','tracing','stories','gallery'])assert.ok(fs.existsSync(`dist/${route}/index.html`));});
 test('config-driven canonical and sitemap',()=>{execFileSync('node',['build.mjs'],{env:{...process.env,SITE_URL:'https://example.com'}});assert.match(fs.readFileSync('dist/index.html','utf8'),/href="https:\/\/example.com\/"/);assert.equal((fs.readFileSync('dist/sitemap.xml','utf8').match(/<loc>/g)||[]).length,16);assert.match(fs.readFileSync('dist/robots.txt','utf8'),/Sitemap: https:\/\/example.com/);execFileSync('node',['build.mjs'],{env:{...process.env,SITE_URL:'',RAILWAY_PUBLIC_DOMAIN:''}})});
@@ -35,5 +36,20 @@ const health=await hostRequest('http://127.0.0.1:3018/health.json?check=1',host)
 assert.equal(health.status,200);assert.equal(health.headers.get('location'),null);
 }
 for(const host of ['hindivarnmala.com','localhost:3018','www.hindivarnmala.com.evil.invalid'])assert.equal((await hostRequest('http://127.0.0.1:3018/',host)).status,200);
+}finally{child.kill()}
+});
+
+test('GA4 is in every page head with cookie-free consent and truthful privacy',()=>{
+execFileSync('node',['build.mjs']);
+const pages=[];const walk=dir=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const p=dir+'/'+entry.name;if(entry.isDirectory())walk(p);else if(p.endsWith('.html'))pages.push(p)}};walk('dist');
+assert.equal(pages.length,17);
+for(const p of pages){const h=fs.readFileSync(p,'utf8'),head=h.match(/<head>([\s\S]*?)<\/head>/)[1];assert.equal((head.match(/https:\/\/www.googletagmanager.com\/gtag\/js\?id=G-0PNPNVTWF6/g)||[]).length,1);assert.match(head,/<script async src=/);assert.match(head,/analytics_storage:'denied'/);assert.match(head,/ad_personalization:'denied'/);assert.match(head,/allow_google_signals:false/);assert.match(head,/gtag\('config','G-0PNPNVTWF6'/);}
+const privacy=fs.readFileSync('dist/privacy/index.html','utf8');assert.match(privacy,/Google Analytics measures page visits/);assert.doesNotMatch(privacy,/no user accounts, analytics scripts/);
+});
+test('CSP allows GA loader and hashes inline setup without unsafe-inline',async()=>{
+const child=spawn('node',['server.mjs'],{env:{...process.env,PORT:'3020'}});
+try{for(let i=0;i<30;i++){try{await fetch('http://127.0.0.1:3020/health.json');break}catch{await new Promise(r=>setTimeout(r,50))}}
+const r=await fetch('http://127.0.0.1:3020/');const h=await r.text();const csp=r.headers.get('content-security-policy');assert.match(csp,/script-src 'self' https:\/\/www.googletagmanager.com/);assert.match(csp,/connect-src 'self' https:\/\/\*.google-analytics.com/);assert.doesNotMatch(csp,/unsafe-inline|unsafe-eval/);
+const scripts=[...h.matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)];assert.equal(scripts.length,2);for(const m of scripts)assert.ok(csp.includes("'sha256-"+createHash('sha256').update(m[1]).digest('base64')+"'"));
 }finally{child.kill()}
 });
