@@ -88,6 +88,50 @@ fs.writeFileSync('dist/health.json',JSON.stringify({status:'ok'}));
 fs.writeFileSync('dist/robots.txt',base?`User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n');
 fs.writeFileSync('dist/sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${base?routes.filter(r=>r!=='/gallery/').map(r=>`<url><loc>${esc(base+r)}</loc><lastmod>2026-10-08</lastmod></url>`).join(''):''}</urlset>`);
 fs.writeFileSync('dist/schema.json',JSON.stringify({'@context':'https://schema.org','@type':'WebSite',name:'Hindi Varnmala',description:'Hindi learning resources for parents and early learners',publisher:{'@type':'Organization',name:'Team Handyapps'},...(base?{url:base}:{}),inLanguage:['en','hi']}));
+// Temporary presentation switch: keep audio implementation and templates for restoration.
+// Enable only after reviewed, licensed recordings are ready.
+const WEBSITE_AUDIO_ENABLED=false;
+if(!WEBSITE_AUDIO_ENABLED){
+  const replacements=[
+    ['Optional Hindi speech uses a local device voice when available.','Parent-led practice with familiar example words.'],
+    ['Look · Listen · Repeat','Look · Say · Try'],
+    ['One letter. One sound. One small discovery.','One letter. One word. One small discovery.'],
+    ['Hindi letters, audio, guided tracing, barakhadi and numbers.','Hindi letters, guided tracing, barakhadi and numbers.'],
+    ['Build sounds together','Explore matras together'],
+    ['One letter, new sounds','One letter, new combinations'],
+    ['Explore a consonant with new sounds.','Explore a consonant with common matras.'],
+    ['Want offline learning and bundled audio? Use the Android app.','Want offline learning? Use the Android app.'],
+    ['Seekho · Likho · Bolo','Seekho · Likho · Padho'],
+    ['Model the sound yourself, or use a reviewed recording when available. Device speech is only an optional aid.','Say the letter and its example word together.'],
+    ['Pronunciation recordings and formal Hindi educator review are still to be added.','Formal Hindi educator review is still to be added.'],
+    ['Letter choices and sound preferences','Letter choices'],
+    ['pages, fonts, code and any enabled audio files','pages, fonts and code'],
+    ['Guidance for parents on audio, printing and reporting errors.','Guidance for parents on printing and reporting errors.'],
+    [' Optional speech needs a local Hindi device voice.',''],
+    [' Device speech is synthetic, not a recorded storyteller.',''],
+    ["The Android app includes bundled synthetic letter audio and offline use. This website needs a connection to load and has no installed offline mode. We have not copied the app's audio until voice-model redistribution terms are verified. Browser Hindi speech is an optional local-only aid.","The Android app supports offline use. This website needs a connection to load and has no installed offline mode."],
+    ['These sheets have no audio and do not prescribe stroke order.','These sheets do not prescribe stroke order.'],
+    ['Downloads contain no audio, tracking or form submission.','Downloads contain no tracking or form submission.']
+  ];
+  for(const route of routes){
+    const file=(route==='/'?'dist':'dist'+route)+'/index.html';
+    let html=fs.readFileSync(file,'utf8');
+    html=html.replace(/<div class="soundcontrols">[\s\S]*?<\/div>/g,'')
+      .replace(/<p id="audio-status"[^>]*>[\s\S]*?<\/p>/g,'')
+      .replace(/<div class="note">Device speech[\s\S]*?<\/div>/g,'')
+      .replace(/<button[^>]*data-story="[^\"]*"[^>]*>[\s\S]*?<\/button>/g,'')
+      .replace(/<h2>Optional audio<\/h2><p>[\s\S]*?<\/p>/g,'')
+      .replace(/<h2>I can't hear the letters<\/h2><p>[\s\S]*?<\/p>/g,'');
+    for(const [from,to] of replacements)html=html.replaceAll(from,to);
+    fs.writeFileSync(file,html);
+  }
+  // Letter cards still select visually, but cannot enter a playback path without UI.
+  const script=fs.readFileSync('dist/app.js','utf8')
+    .replace("const mode=document.querySelector('#sound-mode').value,letter=btn.dataset.letter,word=btn.dataset.word;","const control=document.querySelector('#sound-mode');if(!control)return;const mode=control.value,letter=btn.dataset.letter,word=btn.dataset.word;")
+    .replace('const speechText=text=>{stop();',"const speechText=text=>{if(!document.querySelector('#sound-mode'))return;stop();");
+  fs.writeFileSync('dist/app.js',script);
+}
+
 for(const r of routes){const f=(r==='/'?'dist':'dist'+r)+'/index.html';const h=fs.readFileSync(f,'utf8');const title=h.match(/<title>(.*?)<\/title>/)[1];const url=(base||'')+r;
 const graph=[JSON.parse(fs.readFileSync('dist/schema.json','utf8')),{'@type':'WebPage',name:title,url,inLanguage:['en','hi'],publisher:{'@type':'Organization',name:'Team Handyapps'}},{'@type':'SoftwareApplication',name:'Hindi Varnmala',operatingSystem:'Android',applicationCategory:'EducationalApplication',url:play,installUrl:play,publisher:{'@type':'Organization',name:'Team Handyapps'}}];
 if(r!=='/')graph.push({'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:(base||'')+'/'},{'@type':'ListItem',position:2,name:title,item:url}]});
