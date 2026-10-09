@@ -53,3 +53,16 @@ const r=await fetch('http://127.0.0.1:3020/');const h=await r.text();const csp=r
 const scripts=[...h.matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)];assert.equal(scripts.length,2);for(const m of scripts)assert.ok(csp.includes("'sha256-"+createHash('sha256').update(m[1]).digest('base64')+"'"));
 }finally{child.kill()}
 });
+
+
+test('website audio is hidden while implementation stays restorable',async()=>{
+execFileSync('node',['build.mjs']);
+const pages=[];const walk=dir=>{for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=dir+'/'+e.name;if(e.isDirectory())walk(p);else if(p.endsWith('.html'))pages.push(p)}};walk('dist');
+assert.equal(pages.length,17);
+for(const file of pages)assert.doesNotMatch(fs.readFileSync(file,'utf8'),/soundcontrols|audio-status|sound-mode|stop-sound|data-story|\baudio\b|\bspeech\b|\brecordings?\b|\blisten\b|\bpronunciation\b/i,file);
+const script=fs.readFileSync('dist/app.js','utf8');assert.match(script,/speechSynthesis\.speak/);assert.match(script,/if\(!control\)return/);
+const {default:vm}=await import('node:vm');let click,selected=false,playback=0;
+const card={dataset:{letter:'अ',word:'अनार'},addEventListener:(type,fn)=>{click=fn},classList:{add:()=>{selected=true},remove:()=>{}}};
+vm.runInNewContext(script,{document:{querySelector:()=>null,querySelectorAll:s=>s==='[data-letter]'?[card]:[],visibilityState:'hidden'},window:{addEventListener:()=>{},speechSynthesis:{cancel:()=>{},speak:()=>{playback++}}},sessionStorage:{getItem:()=>null},localStorage:{getItem:()=>null},location:{pathname:'/letters/'},setInterval:()=>{},fetch:()=>{throw Error('Unexpected audio request')},SpeechSynthesisUtterance:function(){playback++},Audio:function(){playback++}});
+await click();assert.equal(selected,true);assert.equal(playback,0);
+});
