@@ -13,9 +13,13 @@ const BADGES=[
   <img src="https://startuptrusted.com/api/badge?type=featured&style=light" alt="Hindi Varnmala on StartupTrusted" width="240" height="54" />
 </a>`,
 `<a href="https://nicklaunches.com/products/hindi-varnmala/" target="_blank" rel="noopener"><img src="https://nicklaunches.com/badges/featured.png" alt="Hindi Varnmala on Nick Launches" width="244" height="56" /></a>`,
+`<a href="https://wallof.tools/education/hindi-varnmala" target="_blank" rel="noopener"><img src="https://wallof.tools/badge/toolwall-badge-light.svg" alt="Featured on Wall of Tools" width="188" height="56" /></a>`,
+`<a href="https://easydofollow.dev/education/hindi-varnmala" target="_blank" rel="noopener"><img src="https://easydofollow.dev/badge/easydofollow-badge-light.svg" alt="Featured on EasyDoFollow" width="188" height="56" /></a>`,
+`<a class="fbadges-text" href="https://twelve.tools" target="_blank" rel="noopener">Twelve Tools</a>`,
+`<a href="https://dailypings.com/p/hindi-varnmala" target="_blank" rel="noopener" title="Featured on DailyPings"><img src="https://dailypings.com/badge.svg" alt="Featured on DailyPings" width="179" height="32" /></a>`,
 ];
 const row='<div class="fbadges"><span class="fbadges-label">Directories</span>'+BADGES.join('')+'</div>';
-const css='.fbadges{max-width:1140px;margin:18px auto 0;padding:14px 24px 0;border-top:1px solid #F0D9B5;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px}.fbadges-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#76584d}.fbadges a{display:inline-block;margin:0;line-height:0}.fbadges img{display:block;height:28px;width:auto;max-width:100%}@media(max-width:700px){.fbadges{padding:12px 16px 0;gap:8px 12px}}@media print{.fbadges{display:none!important}}\n';
+const css='.fbadges{max-width:1140px;margin:18px auto 0;padding:14px 24px 0;border-top:1px solid #F0D9B5;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px}.fbadges-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#76584d}.fbadges a{display:inline-block;margin:0;line-height:0}.fbadges a.fbadges-text{font-size:12px;line-height:1.5;color:#76584d;text-underline-offset:3px}.fbadges img{display:block;height:28px;width:auto;max-width:100%}@media(max-width:700px){.fbadges{padding:12px 16px 0;gap:8px 12px}}@media print{.fbadges{display:none!important}}\n';
 fs.appendFileSync('dist/styles.css',css);
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):[path.join(d,e.name)]);
 let n=0;
