@@ -66,3 +66,17 @@ const card={dataset:{letter:'अ',word:'अनार'},addEventListener:(type,fn
 vm.runInNewContext(script,{document:{querySelector:()=>null,querySelectorAll:s=>s==='[data-letter]'?[card]:[],visibilityState:'hidden'},window:{addEventListener:()=>{},speechSynthesis:{cancel:()=>{},speak:()=>{playback++}}},sessionStorage:{getItem:()=>null},localStorage:{getItem:()=>null},location:{pathname:'/letters/'},setInterval:()=>{},fetch:()=>{throw Error('Unexpected audio request')},SpeechSynthesisUtterance:function(){playback++},Audio:function(){playback++}});
 await click();assert.equal(selected,true);assert.equal(playback,0);
 });
+
+test('homepage-only accessible carousel preserves directory destinations',()=>{
+ execFileSync('npm',['run','build']);
+ const html=fs.readFileSync('dist/index.html','utf8');
+ assert.match(html,/<footer class="footer"><section class="fbadges"/);
+ assert.equal((html.match(/class="fbadges"/g)||[]).length,1);
+ assert.match(html,/>DailyPings<\/a>/);
+ assert.doesNotMatch(html,/dailypings\.com\/badge/);
+ for(const host of ['neeed.directory','findly.tools','startuptrusted.com','nicklaunches.com','wallof.tools','easydofollow.dev','twelve.tools','dailypings.com'])assert.ok(html.includes('href="https://'+host));
+ for(const route of ['letters','numbers','privacy','worksheets','parents'])assert.doesNotMatch(fs.readFileSync(`dist/${route}/index.html`,'utf8'),/class="fbadges"|carousel.js/);
+ for(const img of [...html.matchAll(/<img[^>]+src="(\/badges\/[^"]+)"/g)])assert.ok(fs.existsSync('dist'+img[1]));
+ assert.match(fs.readFileSync('dist/styles.css','utf8'),/prefers-reduced-motion/);
+ assert.match(fs.readFileSync('dist/carousel.js','utf8'),/aria-hidden/);
+});
