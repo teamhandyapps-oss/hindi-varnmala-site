@@ -12,7 +12,6 @@ const BADGES=[
 `<a href="https://nicklaunches.com/products/hindi-varnmala/" target="_blank" rel="noopener"><img src="/badges/nicklaunches.png" alt="Hindi Varnmala on Nick Launches" width="244" height="56" /></a>`,
 `<a href="https://wallof.tools/education/hindi-varnmala" target="_blank" rel="noopener"><img src="/badges/wallof.svg" alt="Featured on Wall of Tools" width="188" height="56" /></a>`,
 `<a href="https://easydofollow.dev/education/hindi-varnmala" target="_blank" rel="noopener"><img src="/badges/easydofollow.svg" alt="Featured on EasyDoFollow" width="188" height="56" /></a>`,
-`<a href="https://tinyhunt.dev/projects/hindi-varnmala?utm_source=badge" target="_blank" rel="noopener noreferrer"><img src="/badges/tinyhunt.svg" alt="Featured on TinyHunt" width="150" height="44" /></a>`,
 `<a class="fbadges-text" href="https://twelve.tools" target="_blank" rel="noopener">Twelve Tools</a>`,
 `<a class="fbadges-text" href="https://dailypings.com/p/hindi-varnmala" target="_blank" rel="noopener" title="Featured on DailyPings">DailyPings</a>`,
 ];
