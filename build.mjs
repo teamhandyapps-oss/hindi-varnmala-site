@@ -136,4 +136,13 @@ for(const r of routes){const f=(r==='/'?'dist':'dist'+r)+'/index.html';const h=f
 const graph=[JSON.parse(fs.readFileSync('dist/schema.json','utf8')),{'@type':'WebPage',name:title,url,inLanguage:['en','hi'],publisher:{'@type':'Organization',name:'Team Handyapps'}},{'@type':'SoftwareApplication',name:'Hindi Varnmala',operatingSystem:'Android',applicationCategory:'EducationalApplication',url:play,installUrl:play,publisher:{'@type':'Organization',name:'Team Handyapps'}}];
 if(r!=='/')graph.push({'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:(base||'')+'/'},{'@type':'ListItem',position:2,name:title,item:url}]});
 fs.writeFileSync(f,h.replace('</head>',`<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph})}</script></head>`));}
+// GitHub Pages cannot issue the 301s server.mjs handles for legacy paths, so emit
+// static redirect pages that preserve query string and fragment client-side.
+// On Railway these files are inert: server.mjs answers those paths with 301 before static.
+const legacyRedirects=[['/ka-se-kabutar/','/swar-vyanjan-chart/','alternative-words'],['/hi/varnamala/','/swar-vyanjan-chart/','hindi']];
+for(const [from,pathTo,frag] of legacyRedirects){
+  const dir='dist'+from;fs.mkdirSync(dir,{recursive:true});
+  const dest=(base||'')+pathTo,full=dest+(frag?'#'+frag:'');
+  fs.writeFileSync(dir+'index.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=${full}"><link rel="canonical" href="${dest}"><title>Page moved</title></head><body><script>location.replace(${JSON.stringify(dest)}.replace(/#.*$/,"")+location.search+${JSON.stringify(frag?'#'+frag:'')});</script><p>This page has moved to <a href="${full}">${full}</a>.</p></body></html>`);
+}
 console.log(`Built ${routes.length} pages. Canonical base: ${base||'unset (noindex until configured)'}`);
