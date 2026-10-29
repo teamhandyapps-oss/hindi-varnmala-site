@@ -15,6 +15,9 @@ const BADGES=[
 `<a href="https://postlaunchkit.com/directory/hindi-varnmala/" target="_blank" rel="noopener"><img src="/badges/postlaunchkit.svg" alt="Listed on PostLaunchKit" width="168" height="56" /></a>`,
 `<a class="fbadges-text" href="https://twelve.tools" target="_blank" rel="noopener">Twelve Tools</a>`,
 `<a class="fbadges-text" href="https://dailypings.com/p/hindi-varnmala" target="_blank" rel="noopener" title="Featured on DailyPings">DailyPings</a>`,
+  
+`<a href="https://tinyhunt.dev/projects/hindi-varnmala?utm_source=badge" target="_blank" rel="noopener noreferrer"><img src="/badges/tinyhunt.svg" alt="Featured on TinyHunt" width="150" height="44" /></a>`,
+
 ];
 const row='<section class="fbadges" aria-label="Directories that list Hindi Varnmala"><h2>Featured on</h2><button class="fbadges-toggle" type="button" aria-pressed="false">Pause scrolling</button><div class="fbadges-clip"><div class="fbadges-track">'+BADGES.join('')+'</div></div></section>';
 fs.cpSync('assets/badges','dist/badges',{recursive:true});
