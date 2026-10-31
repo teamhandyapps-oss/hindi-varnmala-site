@@ -18,6 +18,7 @@ const BADGES=[
   
 `<a href="https://tinyhunt.dev/projects/hindi-varnmala?utm_source=badge" target="_blank" rel="noopener noreferrer"><img src="/badges/tinyhunt.svg" alt="Featured on TinyHunt" width="150" height="44" /></a>`,
 
+`<a href="https://thesaasdir.com/product/hindi-varnmala?ref=badge" target="_blank" rel="noopener"><img src="/badges/thesaasdir.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a>`,
 ];
 const row='<section class="fbadges" aria-label="Directories that list Hindi Varnmala"><h2>Featured on</h2><button class="fbadges-toggle" type="button" aria-pressed="false">Pause scrolling</button><div class="fbadges-clip"><div class="fbadges-track">'+BADGES.join('')+'</div></div></section>';
 fs.cpSync('assets/badges','dist/badges',{recursive:true});
