@@ -34,3 +34,16 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/indexnow.mjs
+        env:
+          INDEXNOW_KEY: 7901f241cf2383c8ec98f993011a01cb
