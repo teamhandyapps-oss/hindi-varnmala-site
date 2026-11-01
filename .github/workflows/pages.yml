@@ -21,6 +21,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - run: curl -sf https://hindivarnmala.com/sitemap.xml -o old-sitemap.xml || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: old-sitemap
+          path: old-sitemap.xml
+          retention-days: 1
+          if-no-files-found: ignore
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -44,6 +51,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: old-sitemap
       - run: node scripts/indexnow.mjs
         env:
           INDEXNOW_KEY: 7901f241cf2383c8ec98f993011a01cb
+          OLD_SITEMAP_PATH: old-sitemap.xml
