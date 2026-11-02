@@ -20,6 +20,7 @@ const BADGES=[
 
 `<a href="https://thesaasdir.com/product/hindi-varnmala?ref=badge" target="_blank" rel="noopener"><img src="/badges/thesaasdir.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a>`,
 `<a href="https://lemonlaunch.dev/education/hindi-varnmala" target="_blank" rel="noopener"><img src="https://lemonlaunch.dev/badge/lemonlaunch-badge-light.svg" alt="Featured on LemonLaunch" width="188" height="56" /></a>`,
+`<a href='https://uno.directory' target='_blank' rel='noopener'><img src='https://uno.directory/uno-directory.svg' alt='Listed on Uno Directory' width='120' height='30' /></a>`,
 ];
 const row='<section class="fbadges" aria-label="Directories that list Hindi Varnmala"><h2>Featured on</h2><button class="fbadges-toggle" type="button" aria-pressed="false">Pause scrolling</button><div class="fbadges-clip"><div class="fbadges-track">'+BADGES.join('')+'</div></div></section>';
 fs.cpSync('assets/badges','dist/badges',{recursive:true});
