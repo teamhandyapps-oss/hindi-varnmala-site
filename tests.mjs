@@ -74,7 +74,10 @@ test('homepage-only accessible carousel preserves directory destinations',()=>{
  assert.equal((html.match(/class="fbadges"/g)||[]).length,1);
  assert.match(html,/>DailyPings<\/a>/);
  assert.doesNotMatch(html,/dailypings\.com\/badge/);
- for(const host of ['neeed.directory','findly.tools','startuptrusted.com','nicklaunches.com','wallof.tools','easydofollow.dev','twelve.tools','dailypings.com'])assert.ok(html.includes('href="https://'+host));
+ for(const host of ['neeed.directory','findly.tools','startuptrusted.com','nicklaunches.com','wallof.tools','easydofollow.dev','twelve.tools','dailypings.com','bricklaun.ch','tinyhunt.dev','thesaasdir.com','saaslineup.com'])assert.ok(html.includes(host));
+ assert.doesNotMatch(html,/toolfame\.com/i);
+ const source=fs.readFileSync('badges.mjs','utf8');
+ assert.match(source,/const HIDDEN_BADGES=\[[\s\S]*toolfame\.com/i);
  for(const route of ['letters','numbers','privacy','worksheets','parents'])assert.doesNotMatch(fs.readFileSync(`dist/${route}/index.html`,'utf8'),/class="fbadges"|carousel.js/);
  for(const img of [...html.matchAll(/<img[^>]+src="(\/badges\/[^"]+)"/g)])assert.ok(fs.existsSync('dist'+img[1]));
  assert.match(fs.readFileSync('dist/styles.css','utf8'),/prefers-reduced-motion/);
