@@ -22,9 +22,12 @@ const BADGES=[
 `<a href="https://lemonlaunch.dev/education/hindi-varnmala" target="_blank" rel="noopener"><img src="https://lemonlaunch.dev/badge/lemonlaunch-badge-light.svg" alt="Featured on LemonLaunch" width="188" height="56" /></a>`,
 `<a href='https://uno.directory' target='_blank' rel='noopener'><img src='https://uno.directory/uno-directory.svg' alt='Listed on Uno Directory' width='120' height='30' /></a>`,
 `<a href="https://bricklaun.ch/education/hindi-varnmala" target="_blank" rel="noopener"><img src="https://bricklaun.ch/badge/brick-launch-badge-a-light.svg" alt="Featured on Brick Launch" width="140" height="54" /></a>`,
-`<a href="https://toolfame.com/item/hindi-varnmala" target="_blank" rel="noopener noreferrer"><img src="https://toolfame.com/badge-light.svg" alt="Featured on toolfame.com" style="height:54px;width:auto;" /></a>`,
 `<a href="https://launchstreak.dev/education/hindi-varnmala" target="_blank" rel="noopener"><img src="https://launchstreak.dev/badge/launch-streak-badge-light.svg" alt="Launched on Launch Streak" width="248" height="68" /></a>`,
 `<a href='https://indielineup.com/product/hindi-varnmala?ref=badge' rel='dofollow'><img src='https://indielineup.com/badge/hindi-varnmala.svg' alt='Featured on IndieLineup' width='182' height='46'></a>`,
+];
+const HIDDEN_BADGES=[
+// ToolFame listing is inactive; keep its markup available without rendering it.
+`<a href="https://toolfame.com/item/hindi-varnmala" target="_blank" rel="noopener noreferrer"><img src="https://toolfame.com/badge-light.svg" alt="Featured on toolfame.com" style="height:54px;width:auto;" /></a>`,
 ];
 const row='<section class="fbadges" aria-label="Directories that list Hindi Varnmala"><h2>Featured on</h2><button class="fbadges-toggle" type="button" aria-pressed="false">Pause scrolling</button><div class="fbadges-clip"><div class="fbadges-track">'+BADGES.join('')+'</div></div></section>';
 fs.cpSync('assets/badges','dist/badges',{recursive:true});
